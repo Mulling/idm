@@ -5,14 +5,19 @@
 
 ## Using:
 
-Example (currently broken):
+Example (currently broken, `cd` can't read from pipe):
+```bash
+$ ls | idm | cd
 ```
-ls | idm | cd
+
+```bash
+$ ls | idm | cat # works
 ```
 
 ## TODO:
+- [ ] Format output.
+- [ ] Patch `cd` so it can read from a pipe.
 - [ ] Everything.
-- [ ] Fix printing to `stdout`.
 
 ## Alternatives:
 Don't know and don't care!
