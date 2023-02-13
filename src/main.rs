@@ -1,6 +1,6 @@
 use std::{
     fs::OpenOptions,
-    io::{self, BufRead, BufReader},
+    io::{self, BufRead, BufReader, BufWriter, Write},
 };
 
 fn read_from_pipe() -> Vec<String> {
@@ -8,7 +8,14 @@ fn read_from_pipe() -> Vec<String> {
 
     for (i, line) in io::stdin().lock().lines().enumerate() {
         let l = line.expect("extected input");
-        println!("[{i}] {}", l);
+
+        let file = OpenOptions::new()
+            .write(true)
+            .open("/dev/tty")
+            .expect("fail to open file");
+        let mut buf_writer = BufWriter::new(file);
+        // TODO: format this crap
+        let _ = buf_writer.write(l.as_bytes());
         lines.push(l);
     }
 
@@ -32,19 +39,16 @@ fn main() {
         let i: usize = match input.trim().parse() {
             Ok(n) => n,
             _ => {
-                println!("fail to parse");
                 continue;
             }
         };
 
         match lines.get(i) {
             Some(line) => {
-                println!("{}", line)
+                let _ = writeln!(io::stdout().lock(), "{}", line);
+                break;
             }
-            None => {
-                println!("please provide a valid range");
-                continue;
-            }
+            None => continue,
         }
     }
 }
