@@ -14,5 +14,5 @@ ls | idm | cd
 - [ ] Everything.
 - [ ] Fix printing to `stdout`.
 
-## Alternatives
+## Alternatives:
 Don't know and don't care!
