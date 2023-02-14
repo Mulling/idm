@@ -13,9 +13,10 @@ fn read_from_pipe() -> Vec<String> {
             .write(true)
             .open("/dev/tty")
             .expect("fail to open file");
+
         let mut buf_writer = BufWriter::new(file);
         // TODO: format this crap
-        let _ = buf_writer.write(l.as_bytes());
+        let _ = buf_writer.write(format!("[{i}] {l}\n").as_bytes());
         lines.push(l);
     }
 
@@ -45,7 +46,7 @@ fn main() {
 
         match lines.get(i) {
             Some(line) => {
-                let _ = writeln!(io::stdout().lock(), "{}", line);
+                let _ = writeln!(io::stdout(), "{}", line);
                 break;
             }
             None => continue,
