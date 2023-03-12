@@ -11,11 +11,14 @@ $ ls | idm | cd
 ```
 
 ```bash
-$ ls | idm | cat # works
+$ cd $(ls | idm) # works, not accounting for files
+```
+
+```bash
+$ alias lvim='vim $(ls | target/debug/idm)' # useful use
 ```
 
 ## TODO:
-- [ ] Format output.
 - [ ] Patch `cd` so it can read from a pipe.
 - [ ] Everything.
 
