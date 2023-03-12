@@ -1,7 +1,11 @@
 use std::{
     fs::OpenOptions,
     io::{self, BufRead, BufReader, BufWriter, Write},
+    process,
 };
+
+mod utils;
+use utils::isatty;
 
 fn read_from_pipe() -> Vec<String> {
     let mut lines: Vec<String> = vec![];
@@ -15,7 +19,6 @@ fn read_from_pipe() -> Vec<String> {
             .expect("fail to open file");
 
         let mut buf_writer = BufWriter::new(file);
-        // TODO: format this crap
         let _ = buf_writer.write(format!("[{i}] {l}\n").as_bytes());
         lines.push(l);
     }
@@ -32,6 +35,12 @@ fn read_input() -> io::Result<String> {
 }
 
 fn main() {
+    if isatty() {
+        println!("err: stdin is a terminal, interactive use is useless\n");
+
+        process::exit(1);
+    };
+
     let lines = read_from_pipe();
 
     loop {
